@@ -160,12 +160,12 @@
             <p><strong>Atenção: Uso de Dados Exclusivamente Acadêmicos</strong></p>
             <p>Os dados de localização serão coletados de <b>duas formas</b>:</p>
             <ul>
-                <li><b>Localização Residencial (Manual):</b> Marcada por você no mapa. (<b>Foco da pesquisa</b>)</li>
+                <li><b>Localização Manual:</b> Marcada por você no mapa. (<b>Foco da pesquisa</b>)</li>
                 <li><b>Localização de Acesso (Automática):</b> Coletada pelo navegador no momento do envio.</li>
             </ul>
-            <p>Ambas as coordenadas, Latitudes e Longitudes, **só serão utilizadas para fins acadêmicos** da pesquisa da UFF, garantindo sua privacidade.</p>
+            <p>Ambas as coordenadas, Latitudes e Longitudes, só serão utilizadas para fins acadêmicos da pesquisa da UFF, garantindo sua privacidade.</p>
             <p class="pesquisador">Pesquisa realizada por: João Victor Gaspar Martins</p>
-            <p>Programa de Pós-graduação em Geografia da **Universidade Federal Fluminense (UFF)**.</p>
+            <p>Programa de Pós-graduação em Geografia da Universidade Federal Fluminense (UFF).</p>
         </div>
     </div>
 
@@ -187,7 +187,8 @@
             <option value="Menos de 1 ano">Menos de 1 ano</option>
             <option value="Entre 1 e 5 anos">Entre 1 e 5 anos</option>
             <option value="Entre 5 e 10 anos">Entre 5 e 10 anos</option>
-            <option value="Mais de 10 anos">Mais de 10 anos</option>
+            <option value="Mais de 10 anos">Entre 10 e 15 anos</option>
+            <option value="Mais de 10 anos">Mais de 15 anos</option>
         </select>
         
         <label>Você trabalha em outras escolas além desta?</label>
@@ -201,26 +202,26 @@
             <input type="text" id="detalheOutrasEscolas" name="detalheOutrasEscolas" placeholder="Ex: Escola Estadual XXX, Niterói">
         </div>
         
-        <label>Localização da sua **RESIDÊNCIA** (Coordenada Manual - Obrigatório):</label>
+        <label>Localização da sua RESIDÊNCIA (Coordenada Manual):</label>
         <div class="info-mapa">
-            <p><strong>Instruções:</strong> Dê zoom no mapa e **clique no local da sua residência** para gerar as coordenadas. Sua Latitude e Longitude serão preenchidas automaticamente abaixo.</p>
+            <p><strong>Instruções:</strong> Dê zoom no mapa e clique no local da sua residência para gerar as coordenadas. Sua Latitude e Longitude serão preenchidas automaticamente abaixo.</p>
         </div>
         <div id="mapaResidencia"></div>
 
-        <label for="latitudeResidencial">Latitude Residencial (Manual):</label>
+        <label for="latitudeResidencial">Latitude Residencial:</label>
         <input type="text" id="latitudeResidencial" name="latitudeResidencial" class="coordenada-field" readonly required value="Marque seu local no mapa acima">
 
-        <label for="longitudeResidencial">Longitude Residencial (Manual):</label>
+        <label for="longitudeResidencial">Longitude Residencial:</label>
         <input type="text" id="longitudeResidencial" name="longitudeResidencial" class="coordenada-field" readonly required value="Marque seu local no mapa acima">
         
-        <label>Localização de Acesso (Coordenada Automática - Opcional):</label>
+        <label>Localização de Acesso:</label>
         <div class="info-coleta">
-            <p>Esta coordenada é capturada automaticamente pelo seu dispositivo no momento do envio. **Por favor, permita o acesso à localização.**</p>
+            <p>Esta coordenada é capturada automaticamente pelo seu dispositivo no momento do envio. Por favor, permita o acesso à localização.</p>
         </div>
-        <label for="latitudeAcesso">Latitude de Acesso (Automática):</label>
+        <label for="latitudeAcesso">Latitude de Acesso:</label>
         <input type="text" id="latitudeAcesso" name="latitudeAcesso" class="coordenada-field" readonly required value="Tentando obter localização de acesso...">
 
-        <label for="longitudeAcesso">Longitude de Acesso (Automática):</label>
+        <label for="longitudeAcesso">Longitude de Acesso:</label>
         <input type="text" id="longitudeAcesso" name="longitudeAcesso" class="coordenada-field" readonly required value="Tentando obter localização de acesso...">
         
 
@@ -231,7 +232,7 @@
         </div>
 
         <div id="contatoDetalhe">
-            <label for="emailContato">Informe um contato (E-mail ou Telefone) para agendamento:</label>
+            <label for="emailContato">Informe um contato (E-mail ou Telefone) para contato:</label>
             <input type="text" id="emailContato" name="emailContato" placeholder="Ex: email@contato.com.br ou (21) 99999-9999">
         </div>
         <div id="message" class="loading">Tentando obter a localização automática. Por favor, aguarde e marque sua residência no mapa.</div>
