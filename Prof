@@ -3,50 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pesquisa UFF - Situação Geográfica das Escolas</title>
+    <title>Pesquisa UFF - Localização Residencial dos Professores</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     
     <style>
-        /* Estilos CSS melhorados e profissionais */
+        /* Paleta de cores UFF: Azul Principal (#0056b3) */
         body { 
             font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             padding: 20px; 
-            background-color: #e9ecef;
-            color: #343a40;
+            background-color: #f7f9fc; /* Fundo mais claro */
+            color: #343a3f;
         }
         .container { 
-            max-width: 750px; 
+            max-width: 780px; 
             margin: 30px auto; 
             background: #ffffff; 
             padding: 40px; 
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            max-width: 150px;
+            height: auto;
         }
         .header-info { 
-            border-bottom: 3px solid #0056b3;
+            border-bottom: 2px solid #0056b3;
             padding-bottom: 15px; 
             margin-bottom: 30px; 
         }
         h1 { 
             color: #0056b3; 
-            font-size: 2em; 
+            font-size: 1.8em; 
             text-align: center; 
-            margin-bottom: 10px; 
-            line-height: 1.2; 
+            margin-bottom: 15px; 
+            line-height: 1.3; 
             font-weight: 700;
         }
         .info-credibilidade { 
-            background-color: #f0f8ff;
-            border-left: 5px solid #0056b3; 
-            padding: 20px; 
+            background-color: #e6f7ff;
+            border-left: 4px solid #0056b3; 
+            padding: 18px; 
             margin-top: 20px; 
-            border-radius: 6px; 
-            font-size: 0.9em; 
+            border-radius: 4px; 
+            font-size: 0.95em; 
             line-height: 1.6;
         }
         .info-credibilidade strong { display: block; margin-bottom: 8px; font-size: 1.1em; color: #004085; }
-        .pesquisador { font-weight: bold; color: #343a40; }
+        .pesquisador { font-weight: bold; color: #343a3f; }
         label { 
             display: block; 
             margin-top: 25px; 
@@ -57,18 +65,18 @@
         }
         input[type="text"], select { 
             width: 100%; 
-            padding: 14px; 
+            padding: 12px; 
             border: 1px solid #ced4da; 
-            border-radius: 8px; 
+            border-radius: 6px; 
             box-sizing: border-box; 
             transition: all 0.3s; 
             background-color: #ffffff; 
             font-size: 1em;
         }
         input[type="text"]:focus, select:focus { 
-            border-color: #0056b3; 
+            border-color: #007bff; 
             outline: none; 
-            box-shadow: 0 0 8px rgba(0, 86, 179, 0.3); 
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.4); 
         }
         .coordenada-field { 
             background-color: #e9ecef; 
@@ -82,7 +90,7 @@
             height: 350px;
             width: 100%;
             border: 1px solid #ced4da;
-            border-radius: 8px;
+            border-radius: 6px;
             margin-top: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
@@ -114,7 +122,7 @@
              font-size: 0.9em;
         }
         button { 
-            background-color: #007bff;
+            background-color: #0056b3; /* Azul UFF */
             color: white; 
             padding: 16px 25px; 
             border: none; 
@@ -127,27 +135,33 @@
             transition: background-color 0.3s, transform 0.1s; 
         }
         button:hover { 
-            background-color: #0056b3; 
-            transform: translateY(-2px); 
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #004085; /* Azul mais escuro */
+            transform: translateY(-1px); 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         .radio-group { display: flex; gap: 20px; margin-top: 10px; }
         .radio-group input[type="radio"] { margin-right: 5px; }
         #outrasEscolasDetalhe { margin-top: 15px; display: none; }
+        #contatoDetalhe { margin-top: 15px; display: none; }
+        ul { padding-left: 20px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <div class="logo">
+        <img src="logo-uff.png" alt="Logotipo da UFF">
+    </div>
+
     <div class="header-info">
-        <h1>Situação Geográfica das Escolas: um olhar para a Região Metropolitana do Rio de Janeiro.</h1>
+        <h1>Situação Geográfica das Escolas: Coordenadas da sua Residência</h1>
         
         <div class="info-credibilidade">
             <p><strong>Atenção: Uso de Dados Exclusivamente Acadêmicos</strong></p>
-            <p>Os dados de localização serão coletados de **duas formas**:</p>
+            <p>Os dados de localização serão coletados de <b>duas formas</b>:</p>
             <ul>
-                <li>**Localização Residencial (Manual):** Marcada por você no mapa.</li>
-                <li>**Localização de Acesso (Automática):** Coletada pelo navegador no momento do envio.</li>
+                <li><b>Localização Residencial (Manual):</b> Marcada por você no mapa. (<b>Foco da pesquisa</b>)</li>
+                <li><b>Localização de Acesso (Automática):</b> Coletada pelo navegador no momento do envio.</li>
             </ul>
             <p>Ambas as coordenadas, Latitudes e Longitudes, **só serão utilizadas para fins acadêmicos** da pesquisa da UFF, garantindo sua privacidade.</p>
             <p class="pesquisador">Pesquisa realizada por: João Victor Gaspar Martins</p>
@@ -165,7 +179,7 @@
             <option value="" disabled selected>Selecione sua escola</option>
             <option value="CIEP 353 Dr. Brochado da Rocha">CIEP 353 Dr. Brochado da Rocha</option>
             <option value="Escola Municipal Engenheiro Elias Faraht">Escola Municipal Engenheiro Elias Faraht</option>
-            </select>
+        </select>
 
         <label for="tempoTrabalho">Há quanto tempo você trabalha nesta escola?</label>
         <select id="tempoTrabalho" name="tempoTrabalho" required>
@@ -187,9 +201,9 @@
             <input type="text" id="detalheOutrasEscolas" name="detalheOutrasEscolas" placeholder="Ex: Escola Estadual XXX, Niterói">
         </div>
         
-        <label>Localização da sua Residência (Coordenada Manual):</label>
+        <label>Localização da sua **RESIDÊNCIA** (Coordenada Manual - Obrigatório):</label>
         <div class="info-mapa">
-            <p><strong>Instruções:</strong> Dê zoom no mapa e clique na sua residência para gerar as coordenadas. Este campo é **obrigatório**.</p>
+            <p><strong>Instruções:</strong> Dê zoom no mapa e **clique no local da sua residência** para gerar as coordenadas. Sua Latitude e Longitude serão preenchidas automaticamente abaixo.</p>
         </div>
         <div id="mapaResidencia"></div>
 
@@ -199,7 +213,7 @@
         <label for="longitudeResidencial">Longitude Residencial (Manual):</label>
         <input type="text" id="longitudeResidencial" name="longitudeResidencial" class="coordenada-field" readonly required value="Marque seu local no mapa acima">
         
-        <label>Localização de Acesso (Coordenada Automática):</label>
+        <label>Localização de Acesso (Coordenada Automática - Opcional):</label>
         <div class="info-coleta">
             <p>Esta coordenada é capturada automaticamente pelo seu dispositivo no momento do envio. **Por favor, permita o acesso à localização.**</p>
         </div>
@@ -209,6 +223,17 @@
         <label for="longitudeAcesso">Longitude de Acesso (Automática):</label>
         <input type="text" id="longitudeAcesso" name="longitudeAcesso" class="coordenada-field" readonly required value="Tentando obter localização de acesso...">
         
+
+        <label>Você tem interesse em participar de uma próxima etapa da pesquisa em formato de entrevista?</label>
+        <div class="radio-group">
+            <label><input type="radio" name="interesseEntrevista" value="Sim" required> Sim</label>
+            <label><input type="radio" name="interesseEntrevista" value="Não"> Não</label>
+        </div>
+
+        <div id="contatoDetalhe">
+            <label for="emailContato">Informe um contato (E-mail ou Telefone) para agendamento:</label>
+            <input type="text" id="emailContato" name="emailContato" placeholder="Ex: email@contato.com.br ou (21) 99999-9999">
+        </div>
         <div id="message" class="loading">Tentando obter a localização automática. Por favor, aguarde e marque sua residência no mapa.</div>
 
         <button type="submit">Enviar Dados da Pesquisa</button>
@@ -224,10 +249,18 @@
         const longitudeAcessoInput = document.getElementById('longitudeAcesso');
         const messageDiv = document.getElementById('message');
         const outrasEscolasDetalheDiv = document.getElementById('outrasEscolasDetalhe');
-        const radioSim = document.querySelector('input[name="trabalhaOutrasEscolas"][value="Sim"]');
-        const radioNao = document.querySelector('input[name="trabalhaOutrasEscolas"][value="Não"]');
         const detalheOutrasEscolasInput = document.getElementById('detalheOutrasEscolas');
+        const contatoDetalheDiv = document.getElementById('contatoDetalhe'); 
+        const emailContatoInput = document.getElementById('emailContato'); 
         
+        // Radios da primeira pergunta
+        const radioSimEscola = document.querySelector('input[name="trabalhaOutrasEscolas"][value="Sim"]');
+        const radioNaoEscola = document.querySelector('input[name="trabalhaOutrasEscolas"][value="Não"]');
+        
+        // Radios da nova pergunta
+        const radioSimContato = document.querySelector('input[name="interesseEntrevista"][value="Sim"]');
+        const radioNaoContato = document.querySelector('input[name="interesseEntrevista"][value="Não"]');
+
         // --- 1. Lógica de Geolocalização do Navegador (Acesso) ---
         let autoLocationSuccess = false;
 
@@ -283,7 +316,6 @@
         }).addTo(map);
 
         // CORREÇÃO DE INICIALIZAÇÃO DO MAPA (Para evitar tiles cinzas)
-        // Isso garante que o Leaflet calcule o tamanho correto após o CSS ser renderizado.
         setTimeout(() => {
             map.invalidateSize();
         }, 100); 
@@ -312,31 +344,47 @@
         // --- 3. Lógica do Formulário (Validações e Envio) ---
         
         // Lógica para mostrar/esconder o campo "Outras Escolas"
-        radioSim.addEventListener('change', () => {
-            outrasEscolasDetalheDiv.style.display = radioSim.checked ? 'block' : 'none';
-            detalheOutrasEscolasInput.required = radioSim.checked;
+        radioSimEscola.addEventListener('change', () => {
+            outrasEscolasDetalheDiv.style.display = radioSimEscola.checked ? 'block' : 'none';
+            detalheOutrasEscolasInput.required = radioSimEscola.checked;
         });
 
-        radioNao.addEventListener('change', () => {
+        radioNaoEscola.addEventListener('change', () => {
             outrasEscolasDetalheDiv.style.display = 'none';
             detalheOutrasEscolasInput.required = false;
             detalheOutrasEscolasInput.value = ''; 
+        });
+
+        // Lógica para mostrar/esconder o campo "Contato"
+        radioSimContato.addEventListener('change', () => {
+            contatoDetalheDiv.style.display = radioSimContato.checked ? 'block' : 'none';
+            emailContatoInput.required = radioSimContato.checked;
+        });
+
+        radioNaoContato.addEventListener('change', () => {
+            contatoDetalheDiv.style.display = 'none';
+            emailContatoInput.required = false;
+            emailContatoInput.value = 'N/A'; // Define como N/A se Não for marcado
         });
         
         // LÓGICA DE ENVIO PARA O WEBHOOK
         document.getElementById('coletaForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // ATENÇÃO: Verifique se este URL está correto e se o Google Apps Script está DEPLOYED
-            const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxPcMA93EIQ5Se0la7hkYwq_H9YD42eNByf7N2ZRnjD_OY0tsu55svzBJ6NnkB0LUw0ow/exec'; 
+            // !!! SUBSTITUA ESTA URL PELA SUA URL FINAL DO APPS SCRIPT AQUI !!!
+            const WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbxI_IDE5FH2IPnNmDh5_FuA0EDn86YgnB0s3Rqp4tprkm9w-fOzU6tIaKJ33belk5OU8A/exec'; 
 
             const formData = new FormData(this);
             const dataToSend = {};
             formData.forEach((value, key) => {
-                if (key === 'detalheOutrasEscolas' && formData.get('trabalhaOutrasEscolas') === 'Não' && !value) {
-                     dataToSend[key] = 'N/A';
+                // Trata o campo de detalhe se a resposta for 'Não' para Outras Escolas
+                if (key === 'detalheOutrasEscolas' && formData.get('trabalhaOutrasEscolas') === 'Não') {
+                    dataToSend[key] = 'N/A';
+                // Trata o campo de detalhe se a resposta for 'Não' para Contato
+                } else if (key === 'emailContato' && formData.get('interesseEntrevista') === 'Não') {
+                    dataToSend[key] = 'N/A';
                 } else {
-                     dataToSend[key] = value;
+                    dataToSend[key] = value;
                 }
             });
 
@@ -361,7 +409,6 @@
                 if (response.ok) {
                     return response.text();
                 } else {
-                    // Adiciona log de erro mais detalhado
                     console.error('Erro na resposta do Webhook:', response.status, response.statusText);
                     throw new Error('Falha na comunicação com o servidor.');
                 }
@@ -371,6 +418,7 @@
                 document.getElementById('message').textContent = 'Obrigado! Dados enviados com sucesso para a pesquisa da UFF.';
                 document.getElementById('coletaForm').reset();
                 outrasEscolasDetalheDiv.style.display = 'none';
+                contatoDetalheDiv.style.display = 'none'; 
                 
                 // Reseta os marcadores e campos de localização
                 if (marker) map.removeLayer(marker);
