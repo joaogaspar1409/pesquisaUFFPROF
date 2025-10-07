@@ -312,8 +312,14 @@
         const map = L.map('mapaResidencia').setView([-22.8, -43.1], 10);
         let marker = null; 
         
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        }).addTo(map);
+
+        // Opcional: Adicionar uma camada de Estradas/Rótulos por cima do satélite (Recomendado para melhor identificação!)
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '',
+            pane: 'markerPane' // Garante que a camada fique por cima
         }).addTo(map);
 
         // CORREÇÃO DE INICIALIZAÇÃO DO MAPA (Para evitar tiles cinzas)
